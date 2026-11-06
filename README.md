@@ -14,9 +14,12 @@ train 13 492 фото, valid 500, test 500, по 5 фото на класс в t
 - `ImageFolder`, фото 128×128; в train случайная вырезка `RandomResizedCrop(scale=(0.7, 1.0))`, отражение и поворот до 10°;
 - своя свёрточная сеть `CheckSportsModel`: `first` - 8 слоёв Conv + BatchNorm + ReLU с MaxPool, `second` - Dropout и два Linear до 100 классов;
 - `CrossEntropyLoss(label_smoothing=0.1)`, Adam lr 0.001 с `CosineAnnealingLR`, 40 эпох (~15 мин на T4);
-- точность на test: **83,4%**, правильный класс в топ-3 - 94,6%.
+- точность на test: **82,0%** (Colab), правильный класс в топ-3 - 93,8%.
 
-Запуск в Colab: загрузить ноутбук, выбрать T4 GPU, «Выполнить все». Первая ячейка сама скачивает `archive.zip` с Kaggle (без логина).
+Запуск в Colab: загрузить ноутбук, выбрать T4 GPU, «Выполнить все». В ноутбуке сохранены выводы этого запуска.
+Первая ячейка скачивает `archive.zip` по временной ссылке Kaggle (действует до 10.11.2026). Если она истекла -
+скачать архив со страницы https://www.kaggle.com/datasets/gpiosenka/sports-classification, положить в `/content`
+и пропустить первую ячейку.
 В конце сохраняются `sports_model.pth` (веса) и `sports_classes.pth` (названия классов).
 
 ## Запуск сервиса
@@ -39,11 +42,11 @@ FastAPI: http://127.0.0.1:8000/docs, Streamlit: http://localhost:8501.
 {
   "class_id": 31,
   "label": "football",
-  "confidence": 54.41,
+  "confidence": 82.23,
   "top3": [
-    {"class_id": 31, "label": "football", "confidence": 54.41},
-    {"class_id": 53, "label": "lacrosse", "confidence": 16.68},
-    {"class_id": 7, "label": "baseball", "confidence": 7.17}
+    {"class_id": 31, "label": "football", "confidence": 82.23},
+    {"class_id": 53, "label": "lacrosse", "confidence": 4.59},
+    {"class_id": 21, "label": "cricket", "confidence": 1.59}
   ]
 }
 ```
