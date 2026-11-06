@@ -23,7 +23,12 @@ if image_file:
             if response.status_code == 200:
                 result = response.json()
                 st.success(f"{result['label']} - {result['confidence']}%")
-                st.table(result['top3'])
+                st.subheader('Топ-3')
+                st.dataframe(
+                    [{'Класс': item['label'], 'Уверенность': f"{item['confidence']}%"} for item in result['top3']],
+                    hide_index=True,
+                    width='stretch',
+                )
             else:
                 st.error(response.json()['detail'])
 else:
